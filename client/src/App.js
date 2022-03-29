@@ -8,6 +8,7 @@ import SavedList from './Movies/SavedList';
 export default function App () {
   const [saved, setSaved] = useState([]); // Stretch: the ids of "saved" movies
   const [movieList, setMovieList] = useState([]);
+  
 
   useEffect(() => {
     const getMovies = () => {
@@ -26,18 +27,24 @@ export default function App () {
   }, []);
 
   const addToSavedList = id => {
-    // This is stretch. Prevent the same movie from being "saved" more than once
+    // console.log(movieList.find(mov => mov.id === parseInt(id)));
+    if (saved.find(mov => mov.id === parseInt(id)) === undefined) {
+    setSaved([...saved,movieList.find(mov => mov.id === parseInt(id))]);
+    }
+     // This is stretch. Prevent the same movie from being "saved" more than once
   };
   if (!movieList) return (<h1>Awaiting the requested list ...</h1>);
   return (
     <div>
-      <SavedList list={[ /* This is stretch */]} />
+      <SavedList list={saved} />
 
       <Route exact path="/">
         <MovieList movies={movieList} />
       </Route>
-      <Route path="/movies/:id" component={Movie} />
-        
+      <Route path="/movies/:id">
+        <Movie addToSavedList={addToSavedList}/>
+        </Route>
+              
     </div>
   );
 }

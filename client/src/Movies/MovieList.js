@@ -4,13 +4,13 @@ import {NavLink} from 'react-router-dom';
 export default function MovieList(props) {
   
   const {movies} = props;
-  console.log(movies);
+
   return (
     
     <div className="movie-list">
       {movies.map(movie => (
         <NavLink to={`./movies/${movie.id}`} key={movie.id}>
-        <MovieDetails  movie={movie} />
+        <MovieDetails key={movie.id} movie={movie} />
         </NavLink>
       ))}
     </div>
